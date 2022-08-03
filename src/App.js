@@ -5,23 +5,23 @@ import SignUpScreen from "./SignUpScreen/SignUpScreen";
 import Habits from "./Habits/Habits";
 import Today from "./Today/Today";
 import Historic from "./Historic/Historic";
-import EmailContext from "./contexts/EmailContext";
-import PasswordContext from "./contexts/PasswordContext";
-
+import TokenContext from "./contexts/TokenContext";
 
 
 export default function App() {
-
+    const [userToken, setUserToken] = useState("");
 
     return (
         <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<LoginScreen />}/>
-                        <Route path="/cadastro" element={<SignUpScreen />}/>
-                        <Route path="/habitos" element={<Habits />}/>
-                        <Route path="/hoje" element={<Today />}/>
-                        <Route path="/historico" element={<Historic />}/>
-                    </Routes>
+            <TokenContext.Provider value={{userToken, setUserToken}}>
+                <Routes>
+                    <Route path="/" element={<LoginScreen />}/>
+                    <Route path="/cadastro" element={<SignUpScreen />}/>
+                    <Route path="/habitos" element={<Habits />}/>
+                    <Route path="/hoje" element={<Today />}/>
+                    <Route path="/historico" element={<Historic />}/>
+                </Routes>
+            </TokenContext.Provider>
         </BrowserRouter>
     );
 }

@@ -13,20 +13,14 @@ export default function SignUpScreen () {
     const registerURL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
 
     const [formData, setFormData] = useState({
-        email:"",
+        email:useContext(EmailContext),
         name:"",
         image:"",
-        password:"",
+        password:useContext(PasswordContext),
     });
 
     function registerUser(e) {
         e.preventDefault();
-        setFormData({
-            email:"",
-            name:"",
-            image:"",
-            password:"",
-        });
         console.log(formData);
 
 
@@ -38,6 +32,13 @@ export default function SignUpScreen () {
         promise.catch(error => {
             alert("deu ruim aí");
             console.log(error);
+        });
+        
+        setFormData({
+            email:"",
+            name:"",
+            image:"",
+            password:"",
         });
 
     } 
