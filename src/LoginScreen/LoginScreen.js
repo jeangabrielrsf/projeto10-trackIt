@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import styled from "styled-components"
 import UnderlinedButton from "../GlobalStyled/UnderlinedButton";
 import Logo from "../GlobalStyled/Logo";
 import Form from "../GlobalStyled/Form";
@@ -7,12 +6,15 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import TokenContext from "../contexts/TokenContext";
 import { useNavigate } from "react-router-dom";
+import UserProfileImageContext from "../contexts/UserProfileImageContext";
+
 
 export default function LoginScreen() {
 
     const loginURL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
     const navigate = useNavigate();
-    const {userToken, setUserToken} = useContext(TokenContext);
+    const {setUserToken} = useContext(TokenContext);
+    const {setUserImage} = useContext(UserProfileImageContext);
     const [formData, setFormData] = useState({
         email:"",
         password:"",
@@ -23,8 +25,10 @@ export default function LoginScreen() {
         const promise = axios.post(loginURL, formData);
 
         promise.then(result => {
+            console.log(result);
             console.log (result.data);
             setUserToken(result.data.token);
+            setUserImage(result.data.image);
             navigate("/hoje");
         });
         promise.catch(error => {

@@ -3,20 +3,19 @@ import Form from "../GlobalStyled/Form";
 import UnderlinedButton from "../GlobalStyled/UnderlinedButton";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import React, { useContext, useState } from "react";
-import EmailContext from "../contexts/EmailContext";
-import PasswordContext from "../contexts/PasswordContext";
+import React, { useState } from "react";
+
+
 
 
 export default function SignUpScreen () {
 
     const registerURL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
-
     const [formData, setFormData] = useState({
-        email:useContext(EmailContext),
+        email:"",
         name:"",
         image:"",
-        password:useContext(PasswordContext),
+        password:"",
     });
 
     function registerUser(e) {
@@ -33,7 +32,7 @@ export default function SignUpScreen () {
             alert("deu ruim aí");
             console.log(error);
         });
-        
+
         setFormData({
             email:"",
             name:"",
