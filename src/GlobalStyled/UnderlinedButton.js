@@ -11,7 +11,7 @@ const UnderlinedButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 15px auto;
+    margin: 25px auto;
 
     p:hover{
         cursor: pointer;

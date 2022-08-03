@@ -10,7 +10,7 @@ export default function LoginScreen() {
 
     function handleForm(e) {
         e.preventDefault();
-        alert("entrei na handleForm");
+        alert("vou ver se você já tem conta.");
     }
 
     return (
@@ -24,7 +24,7 @@ export default function LoginScreen() {
 
             <UnderlinedButton>
                 <Link to="/cadastro">
-                <p>Não tem uma conta? Cadastra-se</p>
+                    <p>Não tem uma conta? Cadastra-se</p>
                 </Link>
             </UnderlinedButton>
         </>
