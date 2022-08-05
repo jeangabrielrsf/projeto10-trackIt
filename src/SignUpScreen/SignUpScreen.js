@@ -44,7 +44,6 @@ export default function SignUpScreen () {
 
     function handleData (e) {
         setFormData({...formData, [e.target.name]: e.target.value});
-        console.log(formData);
     }
 
     return (

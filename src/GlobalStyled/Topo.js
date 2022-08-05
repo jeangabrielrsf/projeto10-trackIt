@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-function Topo (source) {
+function Topo ({source}) {
     return (
         <Header>
             <h2>TrackIt</h2>
