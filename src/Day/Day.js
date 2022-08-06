@@ -5,22 +5,27 @@ export default function Day({
     day, 
     chosenDays, 
     setChosenDays,
-    cleanDays  
+    cleanDays,
+    daysAPI
 }) {
 
     const [dayClass, setDayClass] = useState("day");
 
+
     
     function chooseDay() {
-        console.log(cleanDays);
-        console.log(dayClass);
-        if (dayClass === "day") {
-            setDayClass("day selected");
-            setChosenDays([...chosenDays, day]);
+        if (cleanDays === false) {
+            if (dayClass === "day") {
+                setDayClass("day selected");
+                setChosenDays([...chosenDays, day]);
+            } else {
+                setDayClass("day");
+                chosenDays.splice(chosenDays.indexOf(day),1);
+            }
         } else {
-            setDayClass("day");
-            chosenDays.splice(chosenDays.indexOf(day),1);
+            return;
         }
+        
     }
 
     function resetDays() {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import React,{ useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import TokenContext from "../contexts/TokenContext";
 import UserProfileImageContext from "../contexts/UserProfileImageContext";
@@ -9,7 +9,7 @@ import Footer from "../GlobalStyled/Footer";
 import PageTitle from "../GlobalStyled/PageTitle";
 import Topo from "../GlobalStyled/Topo";
 import AddHabitLayer from "./AddHabitLayer";
-import HabitsLayer from "./HabitLayer";
+import HabitsLayer from "./HabitsLayer";
 
 
 
@@ -25,25 +25,25 @@ export default function Habits () {
     const [userHabits, setUserHabits] = useState([]);
     const [addClass, setAddClass] = useState("hidden");
 
-    const teste = [0,1,2,3,4,5,6];
+    const week = [0,1,2,3,4,5,6];
     // [domingo, segunda, terça, quarta, quinta, sexta, sábado]
 
     const [habitTitle, setHabitTitle] = useState("");
     const [chosenDays, setChosenDays] = useState([]);
     const [cleanDays, setCleanDays] = useState(false);
+    const [reloadContent, setReloadContent] = useState(false);
 
 
 
     useEffect(() => {
         const promise = axios.get(habitsURL,config);
         promise.then(result => {
-            console.log(result.data);
             setUserHabits(result.data);
         })
         .catch(error => {
-            alert(error.responde.data);
+            alert(error.response.data.message);
         })
-    }, []);
+    }, [reloadContent]);
 
     function showAddHabit () {
         setCleanDays(false);
@@ -54,13 +54,25 @@ export default function Habits () {
         setAddClass("hidden");
     }
 
+    /* OS DIAS SELECIONADOS NÃO ESTÃO SENDO LIMPOS. RESOLVER!!!*/
     function saveHabit() {
-        console.log(chosenDays);
+        console.log(chosenDays.sort());
         console.log(habitTitle);
-        setHabitTitle("");
-        setCleanDays(true);
-        hideAddHabit();
-        alert("salvei po");
+        
+        const request = axios.post(habitsURL,{
+            name:habitTitle,
+            days:chosenDays.sort(),
+        }, config );
+        request.then((result) => {
+            console.log(result.data);
+            setHabitTitle("");
+            setCleanDays(true);
+            setUserHabits([...userHabits, result.data]);
+            hideAddHabit();
+        });
+        request.catch(error => {
+            alert(error.response.data.message);
+        });
     }
 
     function handleInputData(e) {
@@ -83,7 +95,7 @@ export default function Habits () {
                     <AddHabitLayer>
                         <input type="text" placeholder="nome do hábito" value={habitTitle} onChange={handleInputData} />
                         <div className="days">
-                            {teste.map((item, index) => {
+                            {week.map((item, index) => {
                                 return (
                                     <Day    
                                         key={index} 
@@ -108,43 +120,20 @@ export default function Habits () {
                         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
                     ) : 
                     (
-                        userHabits.map(habit => {
+                        userHabits.map((habit,index) => {
+                            console.log(habit);
                             return (
-                                <HabitsLayer>
-                                    <div>
-                                        <p>{habit.name}</p>
-                                        <ion-icon name="trash-outline"></ion-icon>
-                                    </div>
-                    
-                                    <span>
-                                        {habit.days.map((day, index) => {
-                                            {switch (day) {
-                                                case 0:
-                                                    return (
-                                                        <span className="day" key={index}>D</span>
-                                                        );
-                                                case 1:
-                                                case 5:
-                                                case 6:
-                                                    return (
-                                                        <span className="day" key={index}>S</span>
-                                                        );
-                                                case 2:
-                                                    return (
-                                                        <span className="day" key={index}>T</span>
-                                                        );
-                                                case 3:
-                                                case 4:
-                                                    return (
-                                                        <span className="day" key={index}>Q</span>
-                                                        );
-                                                default:
-                                                    console.log("erou");
-                                                }
-                                            }
-                                        })}
-                                    </span>
-                                </HabitsLayer>
+                                <HabitsLayer 
+                                    key={index}
+                                    habitName={habit.name}
+                                    habitDays={habit.days}
+                                    habitId={habit.id} 
+                                    week={week}
+                                    habitsURL={habitsURL}
+                                    config={config}
+                                    reloadContent={reloadContent} 
+                                    setReloadContent={setReloadContent}
+                                />
                             );
                         }) 
                     )}
@@ -162,8 +151,11 @@ export default function Habits () {
 
 const Container = styled.div`
     background-color: #f2f2f2 ;
-    height: 100vmax;
+    background-size: 100% 100%;
+    border: 1px solid black;
+    height: 100%;
     width: 100%;
+    padding-bottom: 95px;
 
     & > * {
         margin: 0 20px;
@@ -189,42 +181,10 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
 
-    .habit {
-        background-color: #ffffff;
-        height: 91px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        margin: 20px auto;
-        border-radius: 5px;
-        font-size: 20px;
-        line-height: 25px;
-    }
-
     p{
         font-size: 18px;
         line-height: 22.47px;
         color: #666666;
         margin-top: 10px;
     }
-  
-    /* .day {
-        min-width: 30px;
-        min-height: 30px;
-        border-radius: 5px;
-        border: 1px solid #D4D4D4;
-        color: #DBDBDB;
-        font-size: 20px;
-        margin: 0 3px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    } */
-
-    /* .days {
-        width: 80%;
-        display: flex;
-        align-items: center;
-        margin: 0 15px;
-    } */
 `;

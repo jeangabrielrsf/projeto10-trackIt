@@ -35,6 +35,7 @@ const Wrapper = styled.div`
     height: 70px;
     background-color: #FFFFFF;
 
+
     div {
         width: 91px;
         height: 91px;
