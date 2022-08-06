@@ -150,13 +150,11 @@ export default function Habits () {
 /* MUDAR DEPOIS PARA UM COMPONENTE ADICIONAR HÁBITO*/
 
 const Container = styled.div`
-    background-color: #f2f2f2 ;
-    background-size: 100% 100%;
-    border: 1px solid black;
     height: 100%;
     width: 100%;
+    background-color: #f2f2f2 ;
     padding-bottom: 95px;
-
+    
     & > * {
         margin: 0 20px;
     }

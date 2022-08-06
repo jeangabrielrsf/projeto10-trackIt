@@ -29,7 +29,7 @@ export default function LoginScreen() {
             console.log (result.data);
             setUserToken(result.data.token);
             setUserImage(result.data.image);
-            navigate("/habitos");
+            navigate("/hoje");
         });
         promise.catch(error => {
             console.log(error);
