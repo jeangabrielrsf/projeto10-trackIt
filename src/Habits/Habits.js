@@ -56,15 +56,14 @@ export default function Habits () {
 
     /* OS DIAS SELECIONADOS NÃO ESTÃO SENDO LIMPOS. RESOLVER!!!*/
     function saveHabit() {
-        console.log(chosenDays.sort());
-        console.log(habitTitle);
+
         
         const request = axios.post(habitsURL,{
             name:habitTitle,
             days:chosenDays.sort(),
         }, config );
         request.then((result) => {
-            console.log(result.data);
+
             setHabitTitle("");
             setCleanDays(true);
             setUserHabits([...userHabits, result.data]);
@@ -121,7 +120,7 @@ export default function Habits () {
                     ) : 
                     (
                         userHabits.map((habit,index) => {
-                            console.log(habit);
+
                             return (
                                 <HabitsLayer 
                                     key={index}

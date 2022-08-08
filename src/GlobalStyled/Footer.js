@@ -2,16 +2,16 @@ import styled from "styled-components";
 import {buildStyles, CircularProgressbar} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from "react-router-dom";
-import HabitsPercentageContext from "../contexts/HabitsPercentageContext";
 import { useContext } from "react";
+import HabitsPercentageContext from "../contexts/HabitsPercentageContext";
 
 
 
 function Footer () {
 
     const navigate = useNavigate();
-
     const {percentage} = useContext(HabitsPercentageContext);
+
 
     return (
         <Wrapper>

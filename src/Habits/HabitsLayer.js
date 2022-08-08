@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default  function HabitsLayer({
@@ -21,7 +20,7 @@ export default  function HabitsLayer({
         if(check) {
             axios.delete(`${habitsURL}/${habitId}`, config)
                 .then((res => {
-                    console.log(res);
+
                     setReloadContent(!reloadContent);
                 }))
                 .catch((error) => {
@@ -66,7 +65,7 @@ export default  function HabitsLayer({
                                 <DaySquare className={habitDays.includes(day)? "selected" : "day"} key={index}>Q</DaySquare>
                                 );
                         default:
-                            console.log("erou");
+
                         }
                     
                 })}

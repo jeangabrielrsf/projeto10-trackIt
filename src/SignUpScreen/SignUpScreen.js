@@ -20,16 +20,15 @@ export default function SignUpScreen () {
 
     function registerUser(e) {
         e.preventDefault();
-        console.log(formData);
 
 
         const promise = axios.post(registerURL, formData);
         promise.then(result => {
-            alert("cadastrado");
+            alert("Usuário Cadastrado com Sucesso.");
             console.log(result);
         });
         promise.catch(error => {
-            alert("deu ruim aí");
+            alert(error.response.data.message);
             console.log(error);
         });
 

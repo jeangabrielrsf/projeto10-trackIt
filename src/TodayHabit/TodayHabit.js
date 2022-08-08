@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useContext } from "react";
 import styled from "styled-components";
 
 
@@ -14,13 +13,12 @@ export default function TodayHabit ({
 
     const urlAPI = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dayHabit.id}`;
     
-    console.log(dayHabit.done);
-    console.log(typeof dayHabit.done);
+
     function checkHabit() {
         if (dayHabit.done === false) {
             axios.post(`${urlAPI}/check/`, {}, config)
                 .then(result => {
-                    console.log(result.data)
+
                     setHabitsDone([...habitsDone, dayHabit.id ]);
                     
                     setReloadIcons(!reloadIcons);
@@ -29,7 +27,7 @@ export default function TodayHabit ({
         } else {
             axios.post(`${urlAPI}/uncheck/`, {}, config)
                 .then(result => {
-                    console.log(result.data) 
+ 
                     habitsDone.splice(habitsDone.indexOf(dayHabit.id), 1);
                     
                     setReloadIcons(!reloadIcons);

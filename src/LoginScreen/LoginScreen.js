@@ -25,15 +25,14 @@ export default function LoginScreen() {
         const promise = axios.post(loginURL, formData);
 
         promise.then(result => {
-            console.log(result);
-            console.log (result.data);
+
             setUserToken(result.data.token);
             setUserImage(result.data.image);
             navigate("/hoje");
         });
         promise.catch(error => {
-            console.log(error);
-            alert(`Erro de login! ${error.response.data.message}`);
+            console.log(error.response.data.message);
+            alert(`${error.response.data.message}`);
         })
 
         setFormData({

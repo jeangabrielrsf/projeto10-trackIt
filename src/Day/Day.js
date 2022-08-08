@@ -6,7 +6,6 @@ export default function Day({
     chosenDays, 
     setChosenDays,
     cleanDays,
-    daysAPI
 }) {
 
     const [dayClass, setDayClass] = useState("day");
@@ -28,14 +27,7 @@ export default function Day({
         
     }
 
-    function resetDays() {
-        if (cleanDays) {
-            setDayClass("day");
-        }
-    }
-
-
-    {switch (day) {
+    switch (day) {
         case 0:
             
             return (
@@ -59,7 +51,7 @@ export default function Day({
         default:
             console.log("erou");
         }
-    }
+    
 }
 
 const Wrapper = styled.span`
