@@ -4,7 +4,8 @@ import UnderlinedButton from "../GlobalStyled/UnderlinedButton";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import React, { useState } from "react";
-
+import { ThreeDots } from "react-loader-spinner";
+import styled from "styled-components";
 
 
 
@@ -18,8 +19,21 @@ export default function SignUpScreen () {
         password:"",
     });
 
+    const [textSignUpButton, setTextSignUpButton] = useState("Cadastrar");
+
     function registerUser(e) {
         e.preventDefault();
+        setTextSignUpButton(
+            <ThreeDots 
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#ffffff" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true} 
+            />);
 
 
         const promise = axios.post(registerURL, formData);
@@ -29,6 +43,7 @@ export default function SignUpScreen () {
         });
         promise.catch(error => {
             alert(error.response.data.message);
+            setTextSignUpButton("Cadastrar");
             console.log(error);
         });
 
@@ -44,6 +59,12 @@ export default function SignUpScreen () {
     function handleData (e) {
         setFormData({...formData, [e.target.name]: e.target.value});
     }
+
+
+    function changeButton (e) {
+
+    }
+
 
     return (
         <>
@@ -82,7 +103,11 @@ export default function SignUpScreen () {
                     required
                 />
 
-                <button type="submit">Cadastrar</button>
+                <button type="submit" onClick={changeButton}>
+                    <Button>
+                        {textSignUpButton}
+                    </Button>
+                </button>
             </Form>
             <UnderlinedButton>
                 <Link to="/">
@@ -92,3 +117,11 @@ export default function SignUpScreen () {
         </>
     );
 }
+
+const Button = styled.div`
+    width: auto;
+    height: auto;
+    display:flex;
+    justify-content: center;
+    align-items: center
+`;
