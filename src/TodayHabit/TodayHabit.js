@@ -1,21 +1,54 @@
+import axios from "axios";
+import { useContext } from "react";
 import styled from "styled-components";
+
 
 export default function TodayHabit ({
     dayHabit,
+    habitsDone,
+    setHabitsDone,
+    config,
+    reloadIcons,
+    setReloadIcons,
 }) {
 
+    const urlAPI = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${dayHabit.id}`;
+    
+    console.log(dayHabit.done);
+    console.log(typeof dayHabit.done);
+    function checkHabit() {
+        if (dayHabit.done === false) {
+            axios.post(`${urlAPI}/check/`, {}, config)
+                .then(result => {
+                    console.log(result.data)
+                    setHabitsDone([...habitsDone, dayHabit.id ]);
+                    
+                    setReloadIcons(!reloadIcons);
+                })
+                .catch(error => console.log(error.response.data));
+        } else {
+            axios.post(`${urlAPI}/uncheck/`, {}, config)
+                .then(result => {
+                    console.log(result.data) 
+                    habitsDone.splice(habitsDone.indexOf(dayHabit.id), 1);
+                    
+                    setReloadIcons(!reloadIcons);
+                })
+                .catch(error => console.log(error.response.data));
+        }   
+    }
 
     return (
         <Wrapper>
             <HabitText>
                 <h3>{dayHabit.name}</h3>
-                <Sequences>
+                <Sequences done={dayHabit.done} currentSequence={dayHabit.currentSequence} highestSequence={dayHabit.highestSequence}>
                     <p>Sequência Atual: {dayHabit.currentSequence}</p>
                     <p>Seu recorde: {dayHabit.highestSequence}</p>
                 </Sequences>
             </HabitText>
-            <HabitIcon>
-                <ion-icon name="checkbox"></ion-icon>
+            <HabitIcon done={dayHabit.done}>
+                <ion-icon name="checkbox" onClick={checkHabit}></ion-icon>
             </HabitIcon>
         </Wrapper>
     );
@@ -51,6 +84,21 @@ const HabitText = styled.div`
 const Sequences = styled.div`
     font-size: 13px;
     line-height: 16.22px;
+
+    p:nth-child(1) {
+        color: ${props => (props.done === true ? "#8FC549" : "#666666")};
+    }
+
+    p:nth-child(2) {
+        color: ${(props) => {
+            if (props.done === true && props.currentSequence === props.highestSequence) {
+                return "#8FC549";
+            } else {
+                return "#666666";
+            }
+        }
+        };
+    }
 `;
 
 const HabitIcon = styled.div`
@@ -59,6 +107,6 @@ const HabitIcon = styled.div`
 
     ion-icon{
         font-size: 70px;
-        color: ${dayHabit => dayHabit.done? ("#8FC549") : ("#EBEBEB")};
-    }
+        color: ${props => (props.done === true? "#8FC549" : "#EBEBEB")}
+    };
 `;
