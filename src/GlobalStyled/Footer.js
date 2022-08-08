@@ -21,7 +21,7 @@ function Footer () {
                     trailColor: "transparent",
                 })} />
             </div>
-            <p>Histórico</p>
+            <p onClick={() => navigate("/historico")}>Histórico</p>
         </Wrapper>
     )
 }
